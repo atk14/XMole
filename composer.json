@@ -2,7 +2,7 @@
         "name": "atk14/xmole",
         "type": "library",
         "description": "XML parser",
-        "keywords": ["atk14"],
+        "keywords": ["xml","parser","atk14"],
         "homepage": "https://github.com/atk14/XMole",
         "license": ["MIT"],
         "authors": [
