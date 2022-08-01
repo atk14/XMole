@@ -549,6 +549,21 @@ class XMole{
 	function get_xmoles($path){ return $this->get_xmoles_by_all_matching_branches($path); }
 
 	/**
+	 * Get all direct children
+	 *
+	 * @return XMole[]
+	 */
+	function get_children(){
+		$out = array();
+		foreach($this->_tree[0]["children"] as $item){
+			$xmole = $this->_new_instance();
+			$xmole->parse($item["xml_source"]);
+			$out[] = $xmole;
+		}
+		return $out;
+	}
+
+	/**
 	 * Get XMole instance of first child element.
 	 *
 	 * Child elements are indexed starting from 0.
@@ -586,12 +601,18 @@ class XMole{
 	}
 
 	/**
-	 * Get name of the element
+	 * Get name of the root element
 	 *
 	 * @return string
 	 */
 	function get_root_name(){ return $this->_tree[0]["element"];		}
 
+	/**
+	 * Get attributes of the root element
+	 *
+	 * @return array
+	 */
+	function get_root_attributes(){ return $this->get_attributes("/"); }
 
 	/**
 	 * Returns data stored in element.
