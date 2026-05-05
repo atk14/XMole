@@ -276,11 +276,15 @@ class XMole{
 			$this->_error = true;
 			$err_code = xml_get_error_code($this->_parser);
 			$this->_error_msg = $err_message = "XML parser error ($err_code): ".xml_error_string($err_code)." on line ".xml_get_current_line_number($this->_parser);
-			xml_parser_free($this->_parser);
+			if(PHP_VERSION_ID<80500){
+				xml_parser_free($this->_parser);
+			}
 			return false;
 		}
 
-		xml_parser_free($this->_parser);
+		if(PHP_VERSION_ID<80500){
+			xml_parser_free($this->_parser);
+		}
 
 		if(sizeof($this->_tree_references)>1){
 			// neco chybi do konce dokumentu...
