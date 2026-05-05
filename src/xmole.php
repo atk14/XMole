@@ -65,7 +65,7 @@ class XMole{
 		 * @access private
 		 * @var xml_parser
 		 */
-		var $_parser = null;
+		protected $_parser = null;
 		
 		/**
 		 * Input XML data.
@@ -77,7 +77,7 @@ class XMole{
 		 * @see XMole::parse()
 		 *
 		 */
-		var $_data = null;
+		protected $_data = null;
 
 		/**
 		 * Error flag.
@@ -87,7 +87,7 @@ class XMole{
 		 * @access private
 		 * @var boolean
 		 */
-		var $_error = false;
+		protected $_error = false;
 		
 		/**
 		 * Error description.
@@ -97,17 +97,17 @@ class XMole{
 		 * @var string
 		 * @see XMole::get_error_message()
 		 */
-		private $_error_msg = null;
+		protected $_error_msg = null;
 
 		/**
 		 * @ignore Internal storage of xml data
 		 */
-		var $_data_store = array();
+		protected $_data_store = array();
 
 		/**
 		 * @ignore Internal storage of xml structure
 		 */
-		var $_xml_source_store = array();
+		protected $_xml_source_store = array();
 
 		/**
 		 * Input encoding
@@ -118,7 +118,7 @@ class XMole{
 		 * @var string
 		 * @see XMole::set_input_encoding() set_input_encoding
 		 */
-		private $_input_encoding = null;
+		protected $_input_encoding = null;
 
 		/**
 		 * Output encoding
@@ -128,25 +128,29 @@ class XMole{
 		 * @var string
 		 * @see XMole::set_output_encoding() set_output_encoding
 		 */
-		private $_output_encoding = null;
+		protected $_output_encoding = null;
 
 		/**
 		 * Input encoding differs from output encoding so translation is needed
  		 */
-		private $_translate=false;
+		protected $_translate=false;
 		
 		/**
 		 * Xml elements tree
 		 *
 		 * @var array
 		 */
-		private $_tree = array();
+		protected $_tree = array();
 
 		/**
 		 * @ignore Internal array to store structures
 		 * @var array
 		 */
-		private $_tree_references = array();
+		protected $_tree_references = array();
+
+		protected $_trim_data;
+
+		protected $_next_child_index;
 
 	/**
 	 * Creates new instance.
@@ -325,7 +329,7 @@ class XMole{
 	 *
 	 * @ignore
 	 */
-	private function _set_translate(){
+	protected function _set_translate(){
 		$this->_translate=
 			isset($this->_input_encoding) && $this->_input_encoding!="" && 
 			isset($this->_output_encoding) && $this->_output_encoding!="" && 
@@ -423,7 +427,7 @@ class XMole{
 	/**
 	 * @ignore
 	 */
-	private function _get_first_matching_branch($path, $top, $tree) {
+	protected function _get_first_matching_branch($path, $top, $tree) {
 		$desired=$path[$top];
 		foreach($tree as $element){
 			if($element['element']==$desired){
@@ -493,7 +497,7 @@ class XMole{
 	/**
 	 * @ignore
 	 */
-	private function _get_all_matching_branches(&$out, $path, $top, $tree) {
+	protected function _get_all_matching_branches(&$out, $path, $top, $tree) {
 		$desired=$path[$top];
 		foreach($tree as $element){
 			if($element['element']==$desired){
@@ -746,7 +750,7 @@ class XMole{
 	/**
 	 * @ignore
 	 */
-	private function _compare_xml_branch($that_branch,$this_branch){
+	protected function _compare_xml_branch($that_branch,$this_branch){
 		if(!(
 			$that_branch["element"]==$this_branch["element"] &&
 			$that_branch["attribs"]==$this_branch["attribs"] &&
@@ -789,7 +793,7 @@ class XMole{
 	 * @param string $current_path				aktualni cesta
 	 * @param array $xml_tree						vetev xml stromu
 	 */
-	private function _search_branch_by_path($wished_path,$current_path,&$xml_tree){
+	protected function _search_branch_by_path($wished_path,$current_path,&$xml_tree){
 		settype($wished_path,"string");
 		settype($current_path,"string");
 
@@ -839,7 +843,7 @@ class XMole{
 	 * @param array $xml_tree
 	 * @return array					pole $xml_tree
 	 */
-	private function _search_branches_by_path($wished_path,$current_path,&$xml_tree){
+	protected function _search_branches_by_path($wished_path,$current_path,&$xml_tree){
 		settype($wished_path,"string");
 		settype($current_path,"string");
 
@@ -947,7 +951,7 @@ class XMole{
 		
 		//odstraneni posledni reference
 		array_pop($this->_tree_references);
-}
+	}
 
 	/**
 	 * Handler of a function used by xml_parser.
