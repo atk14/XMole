@@ -478,7 +478,7 @@ class XMole{
 
 		//odseknuti posledniho lomitka,
 		//pokud se v ceste nachazi
-		if($path[strlen($path)-1]=="/"){
+		if(strlen($path)>0 && $path[strlen($path)-1]=="/"){
 		  $path = substr($path,0,strlen($path)-1);
 		}
 
