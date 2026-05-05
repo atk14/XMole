@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[1.0.2] - 2026-05-05
+--------------------
+
+* dc766cc - Fix for PHP>=8.4
+* 402f252 - Fix for PHP>=8.5
+
 [1.0.1] - 2026-05-05
 --------------------
 
