@@ -1,6 +1,8 @@
 XMole
 =====
 
+[![Tests](https://github.com/atk14/XMole/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/atk14/XMole/actions/workflows/tests.yml)
+
 XMole is a XML parser
 
 Installation
