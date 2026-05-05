@@ -231,9 +231,18 @@ class XMole{
 		
 		unset($this->_parser);
 		$this->_parser = xml_parser_create();
-		xml_set_object($this->_parser,$this);
-		xml_set_element_handler($this->_parser, "_startElement", "_endElement");
-		xml_set_character_data_handler($this->_parser, "_characterData");
+		if(PHP_VERSION_ID >= 80400){
+			xml_set_element_handler(
+				$this->_parser,
+				[$this, "_startElement"],
+				[$this, "_endElement"]
+			);
+			xml_set_character_data_handler($this->_parser, [$this, "_characterData"]);
+		}else{
+			xml_set_object($this->_parser,$this);
+			xml_set_element_handler($this->_parser, "_startElement", "_endElement");
+			xml_set_character_data_handler($this->_parser, "_characterData");
+		}
     xml_parser_set_option($this->_parser, XML_OPTION_CASE_FOLDING, false);
 
 		//automaticke zjisteni vstupniho kodovani
