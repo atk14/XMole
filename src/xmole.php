@@ -226,6 +226,7 @@ class XMole{
 		//die();
 
 		$this->_data_store = array();
+		$this->_xml_source_store = array();
 		$this->_tree = array();
 		
 		unset($this->_parser);
