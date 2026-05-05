@@ -635,7 +635,7 @@ class XMole{
 	 */
 	function get_element_data($path = "/"){
 		if($_tree = $this->get_first_matching_branch($path)){
-			return isset($_tree[0]["data"]) ? $_tree[0]["data"] : $_tree["data"];
+			return $_tree["data"];
 		}
 	}
 
@@ -690,7 +690,7 @@ class XMole{
 		settype($element_path,"string");
 
 		if($_tree = $this->get_first_matching_branch($element_path)){
-			return isset($_tree[0]["attribs"]) ? $_tree[0]["attribs"] : $_tree["attribs"];
+			return $_tree["attribs"];
 		}
 	}
 
