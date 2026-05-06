@@ -150,7 +150,7 @@ class XMole{
 
 		protected $_trim_data;
 
-		protected $_next_child_index;
+		protected $_next_child_index = -1;
 
 	/**
 	 * Creates new instance.
@@ -592,7 +592,6 @@ class XMole{
 	 * @return XMole
 	 */
 	function get_next_child(){
-		if(!isset($this->_next_child_index)){ $this->_next_child_index = -1; }
 		$this->_next_child_index++;
 		return $this->get_child($this->_next_child_index);
 	}
