@@ -244,9 +244,9 @@ class XMole{
 		if(!isset($this->_input_encoding)){
 			$this->_input_encoding = "";
 			$_start = strpos($xml_data,'<?');
-			if(!is_bool($_start)){
+			if($_start!==false){
 				$_stop = strpos($xml_data,'?>',$_start);
-				if(!is_bool($_stop) && $_stop>$_start && ($_stop-$_start)<1000){
+				if($_stop!==false && $_stop>$_start && ($_stop-$_start)<1000){
 					$_tmp = substr($xml_data,$_start+2,$_stop-$_start-2);
 					if(preg_match("/encoding=['\"]{0,1}([a-zA-Z0-9-]*)['\"]{0,1}/",$_tmp,$_matches)){
 						$this->_input_encoding = $_matches[1];
