@@ -23,11 +23,11 @@ if(!defined("XMOLE_AUTO_TRIM_ALL_DATA")){
  * A node looks like this
  * ```
  *	[
- *		"element" => "jmeno_elementu",
- *		"attribs" => ["jmeno_atributu" => "hodnota_atributu",...],
- *		"data" => "data_elementu",
+ *		"element" => "element_name",
+ *		"attribs" => ["attribute_name" => "attribute_value",...],
+ *		"data" => "element_data",
  *		"children" => [],
- *		"xml_source" => "" //usek z XML textu
+ *		"xml_source" => "" // XML source snippet
  *	];
  * ```
  * where children field contains children elements.
@@ -239,8 +239,8 @@ class XMole{
 		}
     xml_parser_set_option($this->_parser, XML_OPTION_CASE_FOLDING, false);
 
-		//automaticke zjisteni vstupniho kodovani
-		//deje se v pripade, kdyz neni $this->_input_encoding nastaveno
+		// auto-detect input encoding
+		// happens when $this->_input_encoding is not set
 		if(!isset($this->_input_encoding)){
 			$this->_input_encoding = "";
 			$_start = strpos($xml_data,'<?');
@@ -255,8 +255,8 @@ class XMole{
 			}
 		}
 
-		//pokud neni nastaveno vystupni kodovani,
-		//bude nastaveno stejne jako vstupni
+		// if output encoding is not set,
+		// default to the same as input encoding
 		if(!isset($this->_output_encoding) || $this->_output_encoding==''){
 			$this->_output_encoding = $this->_input_encoding;
 		}
@@ -281,8 +281,8 @@ class XMole{
 		}
 
 		if(count($this->_tree_references)>1){
-			// neco chybi do konce dokumentu...
-			// toto muze nastat napr. u <xml><tag>DATA</tag>
+			// something is missing before end of document...
+			// this can happen e.g. with <xml><tag>DATA</tag>
 			$this->_error = true;
 			$this->_error_msg = $err_message = "missing the end of the document";
 			return false;
@@ -324,7 +324,7 @@ class XMole{
 	 * Must be called before {@link parse()}.
 	 * When set_input_encoding() is not called input encoding will be detected automatically.
 	 *
-	 * @param string $encoding jmeno kodovani
+	 * @param string $encoding encoding name
 	 */
 	function set_input_encoding($encoding){
 		settype($encoding,"string");
@@ -411,8 +411,8 @@ class XMole{
 	function get_first_matching_branch($path){
 		settype($path,"string");
 
-		//odseknuti posledniho lomitka,
-		//pokud se v ceste nachazi
+		// strip trailing slash
+		// if present in the path
 		if(strlen($path)>0 && $path[strlen($path)-1]=="/"){
 			$path = substr($path,0,strlen($path)-1);
 		}
@@ -477,8 +477,8 @@ class XMole{
 	function get_all_matching_branches($path){
 		settype($path,"string");
 
-		//odseknuti posledniho lomitka,
-		//pokud se v ceste nachazi
+		// strip trailing slash
+		// if present in the path
 		if(strlen($path)>0 && $path[strlen($path)-1]=="/"){
 		  $path = substr($path,0,strlen($path)-1);
 		}
@@ -798,7 +798,7 @@ class XMole{
 		$old_ref = &$this->_tree_references[count($this->_tree_references)-1];
 		$ref = &$old_ref["children"];
 
-    //xml zdroj
+    // xml source
 		$_source_index = count($this->_xml_source_store);
 		$_xml_source_store = "<$name";
 
@@ -814,13 +814,13 @@ class XMole{
 			"data" => "",
 			"children" => [],
 			"xml_source" => "",
-			"_xml_source_starts_at_index_" => $_source_index			//Zapamatujeme si, kde tento text zacina v XML zdroji zacina.
-																														//Pri uzavreni tohoto tagu potom bude source rekonstruovano.
+			"_xml_source_starts_at_index_" => $_source_index			// Remember where this element starts in the XML source.
+																														// When this tag is closed, the source will be reconstructed.
 		];
-		//uschovani nove reference
+		// store new reference
 		$this->_tree_references[] = &$ref[count($ref)-1];
 
-		//inicializace noveho _data_store
+		// initialize new _data_store entry
 		$this->_data_store[] = "";
 	}
 
@@ -838,18 +838,18 @@ class XMole{
 
 		$ref = &$this->_tree_references[count($this->_tree_references)-1];
 		$_start_source_index = $ref["_xml_source_starts_at_index_"];
-		unset($ref["_xml_source_starts_at_index_"]); //v teto chvili uz muzeme informaci o pocatecnim indexu v $this->_xml_source_store zapomenout...
+		unset($ref["_xml_source_starts_at_index_"]); // the start index in $this->_xml_source_store is no longer needed
 
-		//pridavani, aktualizace do posledni reference
+		// update data in the current reference
 		$ref["data"] = $data;
 
-		//xml zdroj
+		// xml source
 		$this->_xml_source_store[] = "</$name>";
 		$_end_source_index = count($this->_xml_source_store);
 		$_source_ar = array_slice($this->_xml_source_store, $_start_source_index, $_end_source_index - $_start_source_index);
 		$ref["xml_source"] = join("",$_source_ar);
 
-		//odstraneni posledni reference
+		// remove the last reference
 		array_pop($this->_tree_references);
 	}
 
@@ -861,9 +861,9 @@ class XMole{
 	 * @ignore
 	 */
 	protected function _characterData($_parser,$data){
-		//pridavani do posledniho _data_store
+		// append to the current _data_store entry
 		$this->_data_store[count($this->_data_store)-1] .= $data;
-		//xml zdroj
+		// xml source
 		$this->_xml_source_store[] = XMole::ToXML($data);
 	}
 
