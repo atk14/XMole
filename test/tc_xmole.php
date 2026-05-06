@@ -33,12 +33,12 @@ class tc_xmole extends tc_base{
     $this->assertEquals("3rd",$xm->get_attribute("planets/earth","order"));
     $this->assertEquals("3rd",$xm->get_attribute("earth","order"));
 
-    $this->assertEquals(array("order" => "3rd"),$xm->get_attributes("/planets/earth"));
-    $this->assertEquals(array("order" => "3rd"),$xm->get_attributes("planets/earth"));
-    $this->assertEquals(array("order" => "3rd"),$xm->get_attributes("earth"));
+    $this->assertEquals(["order" => "3rd"],$xm->get_attributes("/planets/earth"));
+    $this->assertEquals(["order" => "3rd"],$xm->get_attributes("planets/earth"));
+    $this->assertEquals(["order" => "3rd"],$xm->get_attributes("earth"));
 
-    $this->assertEquals(array("system" => "Solar"),($xm->get_attributes()));
-    $this->assertEquals(array("system" => "Solar"),($xm->get_attributes("/")));
+    $this->assertEquals(["system" => "Solar"],($xm->get_attributes()));
+    $this->assertEquals(["system" => "Solar"],($xm->get_attributes("/")));
 
     $this->assertEquals("planets",$xm->get_root_name());
     $this->assertEquals("",$xm->get_data()); // korenovy elemnt <planets> neobsahuje zadna data
@@ -167,21 +167,21 @@ class tc_xmole extends tc_base{
     $this->assertFalse($xmole->error());
 
     $this->assertEquals("computers",$xmole->get_root_name());
-    $this->assertEquals(array(
+    $this->assertEquals([
       "from" => "the begining",
       "till" => "present"
-    ),$xmole->get_attributes());
-    $this->assertEquals(array(
+    ],$xmole->get_attributes());
+    $this->assertEquals([
       "from" => "the begining",
       "till" => "present"
-    ),$xmole->get_root_attributes());
+    ],$xmole->get_root_attributes());
 
     $c1 = $xmole->get_child(0);
     $this->assertEquals("computer",$c1->get_root_name());
-    $this->assertEquals(array(
+    $this->assertEquals([
       "manufacturer" => "Statny majetok Zavadka",
       "model" => "Mato"
-    ),$c1->get_attributes());
+    ],$c1->get_attributes());
     $this->assertEquals("Nice compo",$c1->get_data());
 
     $children = $xmole->get_children();
@@ -198,7 +198,7 @@ class tc_xmole extends tc_base{
     $x = new XMole($xml);
     $this->assertEquals("ABC",$x->get_element_data("element"));
 
-    $x = new XMole($xml,array("trim_data" => false));
+    $x = new XMole($xml,["trim_data" => false]);
     $this->assertEquals(" ABC ",$x->get_element_data("element"));
 
     $x = new XMole();

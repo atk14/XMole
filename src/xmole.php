@@ -22,13 +22,13 @@ if(!defined("XMOLE_AUTO_TRIM_ALL_DATA")){
  *
  * A node looks like this
  * ```
- *	array(
+ *	[
  *		"element" => "jmeno_elementu",
- *		"attribs" => array("jmeno_atributu" => "hodnota_atributu",...),
+ *		"attribs" => ["jmeno_atributu" => "hodnota_atributu",...],
  *		"data" => "data_elementu",
- *		"children" => array(),
+ *		"children" => [],
  *		"xml_source" => "" //usek z XML textu
- *	);
+ *	];
  * ```
  * where children field contains children elements.
  *
@@ -102,12 +102,12 @@ class XMole{
 		/**
 		 * @ignore Internal storage of xml data
 		 */
-		protected $_data_store = array();
+		protected $_data_store = [];
 
 		/**
 		 * @ignore Internal storage of xml structure
 		 */
-		protected $_xml_source_store = array();
+		protected $_xml_source_store = [];
 
 		/**
 		 * Input encoding
@@ -140,13 +140,13 @@ class XMole{
 		 *
 		 * @var array
 		 */
-		protected $_tree = array();
+		protected $_tree = [];
 
 		/**
 		 * @ignore Internal array to store structures
 		 * @var array
 		 */
-		protected $_tree_references = array();
+		protected $_tree_references = [];
 
 		protected $_trim_data;
 
@@ -165,10 +165,10 @@ class XMole{
 	 * @param string $xml_data
 	 * @param array $options
 	 */
-	function __construct($xml_data = null,$options = array()){
-		$options = array_merge(array(
+	function __construct($xml_data = null,$options = []){
+		$options = array_merge([
 			"trim_data" => XMOLE_AUTO_TRIM_ALL_DATA
-		),$options);
+		],$options);
 
 		$this->set_trim_data($options["trim_data"]);
 
@@ -185,7 +185,7 @@ class XMole{
 	 * @param array $tree
 	 */
 	function inherit($tree){
-		$this->_tree=array(unserialize(serialize($tree)));
+		$this->_tree=[unserialize(serialize($tree))];
 		return true;
 	}
 	
@@ -225,9 +225,9 @@ class XMole{
 		//debug_print_backtrace();
 		//die();
 
-		$this->_data_store = array();
-		$this->_xml_source_store = array();
-		$this->_tree = array();
+		$this->_data_store = [];
+		$this->_xml_source_store = [];
+		$this->_tree = [];
 		
 		unset($this->_parser);
 		$this->_parser = xml_parser_create();
@@ -269,7 +269,7 @@ class XMole{
 		$this->_set_translate();
 		$this->_data = $xml_data;
 		//first reference head to my tree (respective forrest)
-		$this->_tree_references=array(array('children' => &$this->_tree));
+		$this->_tree_references=[['children' => &$this->_tree]];
 
 		$stat = xml_parse($this->_parser,$this->_data);
 		if(!$stat){
@@ -500,7 +500,7 @@ class XMole{
 		
     $top=$path=='' || $path[0]=='/'?1:0;		  
 		$path=explode('/', $path);
-    $out=array();
+    $out=[];
     
     if(count($path)==$top)
 		    return $this->_tree;
@@ -545,7 +545,7 @@ class XMole{
 	 */
 	function get_xmoles_by_all_matching_branches($path){
 		$branches = $this->get_all_matching_branches($path);
-		$out = array();
+		$out = [];
 		for($i=0;$i<count($branches);$i++){
 			$xmole = $this->_new_instance();
 			if(!$xmole->inherit($branches[$i])){
@@ -572,7 +572,7 @@ class XMole{
 	 * @return XMole[]
 	 */
 	function get_children(){
-		$out = array();
+		$out = [];
 		foreach($this->_tree[0]["children"] as $item){
 			$xmole = $this->_new_instance();
 			$xmole->parse($item["xml_source"]);
@@ -861,10 +861,10 @@ class XMole{
 		settype($wished_path,"string");
 		settype($current_path,"string");
 
-		$out = array();
+		$out = [];
 
 		if($wished_path==""){
-			return array();
+			return [];
 		}
 
 		$_current_path = $current_path;
@@ -922,15 +922,15 @@ class XMole{
 		$_xml_source_store .= ">";
 		$this->_xml_source_store[$_source_index] = $_xml_source_store;
 
-		$ref[] = array(
+		$ref[] = [
 			"element" => $name,
 			"attribs" => $attribs,
 			"data" => "",
-			"children" => array(),
+			"children" => [],
 			"xml_source" => "",
 			"_xml_source_starts_at_index_" => $_source_index			//Zapamatujeme si, kde tento text zacina v XML zdroji zacina.
 																														//Pri uzavreni tohoto tagu potom bude source rekonstruovano.
-		);
+		];
 		//uschovani nove reference
 		$this->_tree_references[] = &$ref[count($ref)-1];
 
@@ -995,22 +995,22 @@ class XMole{
 	 */
 	static function ToXML($str){
 		settype($str,"string");
-		$illegal_chars = array(
+		$illegal_chars = [
 			'/&/',
 			'/</',
 			'/>/',
 			'/\"/',
 			'/\'/',
 			'/[\x00-\x08\x0b-\x0c\x0e-\x1f]/', // characters invalid for XML 1.0; see http://www.w3.org/TR/2006/REC-xml-20060816/#dt-character
-		);
-		$replaces = array(
+		];
+		$replaces = [
 			"&amp;",
 			"&lt;",
 			"&gt;",
 			"&quot;",
 			"&apos;",
 			"", // applies to XML-1.0
-		);
+		];
 		return preg_replace($illegal_chars, $replaces, $str);
 	}
 
@@ -1030,14 +1030,14 @@ class XMole{
 	static function ToAttribsValue($str){
 		settype($str,"string");
 		return strtr($str,
-			array(
+			[
 				"<" => "&lt;",
 				">" => "&gt;",
 				"&" => "&amp;",
 				"\n" => " ",
 				'"' => "&quot;",
 				"'" => "&apos;"
-			)
+			]
 		);
 	}
 
