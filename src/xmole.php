@@ -671,6 +671,7 @@ class XMole{
 			return $attrs[$attribute_name];
 		}
 	}
+
 	/**
 	 * Alias to get_attribute_value method.
 	 *
@@ -782,107 +783,6 @@ class XMole{
 		if(is_string($xmole2)){ $xmole2 = new static($xmole2); }
 
 		return $xmole1->is_same_like($xmole2);
-	}
-
-	/**
-	 * Tato fce je volana rekurzivne pri vyhledavani vetve XML stromu podle cesty.
-	 * Prvni volani je z fce get_first_matching_branch().
-	 *
-	 * @see XMole::get_first_matching_branch()
-	 * @internal not used any more ?
-	 *
-	 * @ignore
-	 * @param string $wished_path				pozadovana cesta
-	 * @param string $current_path				aktualni cesta
-	 * @param array $xml_tree						vetev xml stromu
-	 */
-	protected function _search_branch_by_path($wished_path,$current_path,&$xml_tree){
-		settype($wished_path,"string");
-		settype($current_path,"string");
-
-		if($wished_path==""){
-			return $xml_tree;
-		}
-
-		$_current_path = $current_path;
-		for($i=0;$i<count($xml_tree);$i++){
-
-			if($current_path=="/"){
-				$_current_path = "/".$xml_tree[$i]["element"];
-			}else{
-				$_current_path = $current_path."/".$xml_tree[$i]["element"];
-			}
-
-			//porovnani cele cesty - cesta musi zacinat znakem ""
-			if($wished_path[0]=="/"){
-				if($_current_path==$wished_path){
-					return $xml_tree[$i];
-				}
-
-			//porovnani konce cesty - cesta nesmi zacinat znakem "/"
-			}elseif(substr($_current_path,-strlen($wished_path))==$wished_path){
-				return $xml_tree[$i];
-			}
-
-			$_out = $this->_search_branch_by_path($wished_path,$_current_path,$xml_tree[$i]["children"]);
-			if(isset($_out)){
-				return $_out;
-			}
-		}
-
-		return null;
-	}
-
-	/**
-	 * Tato fce je volana rekurzivne pri vyhledavani vetvi XML stromu podle cesty.
-	 *	Vraceno je pole vsech vetvi, ktere vyhovuji $wished_path.
-	 *
-	 * @see XMole::get_all_matching_branches()
-	 * @internal obsoleted ?
-	 *
-	 * @ignore
-	 * @param string $wished_path				pozadovana cesta
-	 * @param string $current_path				aktualni cesta
-	 * @param array $xml_tree
-	 * @return array					pole $xml_tree
-	 */
-	protected function _search_branches_by_path($wished_path,$current_path,&$xml_tree){
-		settype($wished_path,"string");
-		settype($current_path,"string");
-
-		$out = [];
-
-		if($wished_path==""){
-			return [];
-		}
-
-		$_current_path = $current_path;
-		for($i=0;$i<count($xml_tree);$i++){
-
-			if($current_path=="/"){
-				$_current_path = "/".$xml_tree[$i]["element"];
-			}else{
-				$_current_path = $current_path."/".$xml_tree[$i]["element"];
-			}
-
-			//porovnani cele cesty - cesta musi zacinat znakem ""
-			if($wished_path[0]=="/"){
-				if($_current_path==$wished_path){
-					$out[] = $xml_tree[$i];
-				}
-
-			//porovnani konce cesty - cesta nesmi zacinat znakem "/"
-			}elseif(substr($_current_path,-strlen($wished_path))==$wished_path){
-				$out[] = $xml_tree[$i];
-			}
-
-			$_out = $this->_search_branches_by_path($wished_path,$_current_path,$xml_tree[$i]["children"]);
-			foreach($_out as $_item){
-				$out[] = $_item;
-			}
-		}
-
-		return $out;
 	}
 
 	/**
@@ -1044,7 +944,7 @@ class XMole{
 	}
 
 	/**
-	 * Outputs string representation of the object 
+	 * Outputs string representation of the object
 	 *
 	 * @return string
 	 */
