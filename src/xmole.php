@@ -219,9 +219,6 @@ class XMole{
 			return false;
 		}
 
-		//debug_print_backtrace();
-		//die();
-
 		$this->_data_store = [];
 		$this->_xml_source_store = [];
 		$this->_tree = [];
