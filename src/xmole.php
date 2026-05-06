@@ -286,7 +286,7 @@ class XMole{
 			xml_parser_free($this->_parser);
 		}
 
-		if(sizeof($this->_tree_references)>1){
+		if(count($this->_tree_references)>1){
 			// neco chybi do konce dokumentu...
 			// toto muze nastat napr. u <xml><tag>DATA</tag>
 			$this->_error = true;
@@ -546,7 +546,7 @@ class XMole{
 	function get_xmoles_by_all_matching_branches($path){
 		$branches = $this->get_all_matching_branches($path);
 		$out = array();
-		for($i=0;$i<sizeof($branches);$i++){
+		for($i=0;$i<count($branches);$i++){
 			$xmole = $this->_new_instance();
 			if(!$xmole->inherit($branches[$i])){
 			//if(!$xmole->parse($branches[$i]["xml_source"])){
@@ -752,9 +752,9 @@ class XMole{
 		$this_tree = $this->get_xml_tree();
 		$that_tree = $xmole->get_xml_tree();
 
-		if(sizeof($this_tree)!=sizeof($that_tree)){ return false; }
+		if(count($this_tree)!=count($that_tree)){ return false; }
 
-		for($i=0;$i<sizeof($that_tree);$i++){
+		for($i=0;$i<count($that_tree);$i++){
 			if(!$this->_compare_xml_branch($that_tree[$i],$this_tree[$i])){ return false; }
 		}
 
@@ -769,10 +769,10 @@ class XMole{
 			$that_branch["element"]==$this_branch["element"] &&
 			$that_branch["attribs"]==$this_branch["attribs"] &&
 			$that_branch["data"]==$this_branch["data"] &&
-			sizeof($that_branch["children"])==sizeof($this_branch["children"])
+			count($that_branch["children"])==count($this_branch["children"])
 		)){ return false; }
 
-		for($i=0;$i<sizeof($that_branch["children"]);$i++){
+		for($i=0;$i<count($that_branch["children"]);$i++){
 			if(!$this->_compare_xml_branch($that_branch["children"][$i],$this_branch["children"][$i])){ return false; }
 		}
 		return true;
@@ -816,7 +816,7 @@ class XMole{
 		}
 
 		$_current_path = $current_path;
-		for($i=0;$i<sizeof($xml_tree);$i++){
+		for($i=0;$i<count($xml_tree);$i++){
 
 			if($current_path=="/"){
 				$_current_path = "/".$xml_tree[$i]["element"];
@@ -868,7 +868,7 @@ class XMole{
 		}
 
 		$_current_path = $current_path;
-		for($i=0;$i<sizeof($xml_tree);$i++){
+		for($i=0;$i<count($xml_tree);$i++){
 
 			if($current_path=="/"){
 				$_current_path = "/".$xml_tree[$i]["element"];
@@ -909,11 +909,11 @@ class XMole{
 			}
 		}
 
-		$old_ref = &$this->_tree_references[sizeof($this->_tree_references)-1];
+		$old_ref = &$this->_tree_references[count($this->_tree_references)-1];
 		$ref = &$old_ref["children"];
 
     //xml zdroj
-		$_source_index = sizeof($this->_xml_source_store);
+		$_source_index = count($this->_xml_source_store);
 		$_xml_source_store = "<$name";
 		
 		foreach($attribs as $_name => $_value){
@@ -932,7 +932,7 @@ class XMole{
 																														//Pri uzavreni tohoto tagu potom bude source rekonstruovano.
 		);
 		//uschovani nove reference
-		$this->_tree_references[] = &$ref[sizeof($ref)-1];
+		$this->_tree_references[] = &$ref[count($ref)-1];
 
 		//inicializace noveho _data_store
 		$this->_data_store[] = "";
@@ -976,7 +976,7 @@ class XMole{
 	 */
 	protected function _characterData($_parser,$data){
 		//pridavani do posledniho _data_store
-		$this->_data_store[sizeof($this->_data_store)-1] .= $data;
+		$this->_data_store[count($this->_data_store)-1] .= $data;
 		//xml zdroj
 		$this->_xml_source_store[] = XMole::ToXML($data);
 	}

@@ -98,11 +98,11 @@ class tc_xmole extends tc_base{
     
     $xmoles = $xmole->get_xmoles_by_all_matching_branches("/nonexisting/branf");
     $this->assertTrue(is_array($xmoles));
-    $this->assertEquals(0,sizeof($xmoles));
+    $this->assertEquals(0,count($xmoles));
 
     $xmoles = $xmole->get_xmoles_by_all_matching_branches("/data/user");
     $this->assertTrue(is_array($xmoles));
-    $this->assertEquals(2,sizeof($xmoles));
+    $this->assertEquals(2,count($xmoles));
 
     $this->assertEquals("honza lenivy",$xmoles[0]->get_element_data("/user"));
     $this->assertEquals("pan vorel",$xmoles[1]->get_element_data("/user"));
@@ -185,7 +185,7 @@ class tc_xmole extends tc_base{
     $this->assertEquals("Nice compo",$c1->get_data());
 
     $children = $xmole->get_children();
-    $this->assertEquals(3,sizeof($children));
+    $this->assertEquals(3,count($children));
     $this->assertEquals("Mato",$children[0]->get_attribute("model"));
     $this->assertEquals("520 STM",$children[1]->get_attribute("model"));
     $this->assertEquals("Amiga 1200",$children[2]->get_attribute("model"));
