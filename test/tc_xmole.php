@@ -212,12 +212,12 @@ class tc_xmole extends tc_base{
   }
 
   function test_new_instance(){
-    $xmole = new XMole();
+    $xmole = new XMoleProxy();
     $xmole->set_trim_data(false);
     $xmole->set_input_encoding("WINDOWS-1250");
     $xmole->set_output_encoding("UTF-8");
 
-    $x2 = $xmole->_new_instance();
+    $x2 = $xmole->new_instance();
     $this->assertFalse($x2->trim_data());
     $this->assertEquals("WINDOWS-1250",$x2->get_input_encoding());
     $this->assertEquals("UTF-8",$x2->get_output_encoding());

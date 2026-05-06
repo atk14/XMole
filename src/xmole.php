@@ -1046,7 +1046,7 @@ class XMole{
 	 *
 	 * @ignore
 	 */
-	function _new_instance(){
+	protected function _new_instance(){
 		$x = new XMole();
 		$x->_trim_data = $this->_trim_data;
 		$x->_input_encoding = $this->_input_encoding;
