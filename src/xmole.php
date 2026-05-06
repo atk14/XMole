@@ -178,13 +178,17 @@ class XMole{
 	}
 
 	/**
-	 * Set new xml tree
+	 * Initializes this instance from an already-parsed tree node.
 	 *
-	 * @todo some explanation needed
-	 * @param array $tree
+	 * More efficient alternative to parse() when a branch of an existing
+	 * tree is available — avoids re-parsing the XML source. The branch is
+	 * deep-copied so the new instance is independent of the original tree.
+	 *
+	 * @param array $tree A single branch node as returned by get_first_matching_branch()
+	 * @return true
 	 */
 	function inherit($tree){
-		$this->_tree=[unserialize(serialize($tree))];
+		$this->_tree = [unserialize(serialize($tree))];
 		return true;
 	}
 
