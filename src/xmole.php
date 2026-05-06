@@ -746,7 +746,7 @@ class XMole{
 	 * @return boolean
 	 */
 	function is_same_like($xmole){
-		if(is_string($xmole)){ $xmole = new XMole($xmole); }
+		if(is_string($xmole)){ $xmole = new static($xmole); }
 		if($xmole->error() || $this->error()){ return null; }
 
 		$this_tree = $this->get_xml_tree();
@@ -789,8 +789,8 @@ class XMole{
 	 * @return boolean
 	 */
 	static function AreSame($xmole1,$xmole2){
-		if(is_string($xmole1)){ $xmole1 = new XMole($xmole1); } 
-		if(is_string($xmole2)){ $xmole2 = new XMole($xmole2); } 
+		if(is_string($xmole1)){ $xmole1 = new static($xmole1); } 
+		if(is_string($xmole2)){ $xmole2 = new static($xmole2); } 
 
 		return $xmole1->is_same_like($xmole2);
 	}
@@ -1047,7 +1047,7 @@ class XMole{
 	 * @ignore
 	 */
 	protected function _new_instance(){
-		$x = new XMole();
+		$x = new static();
 		$x->_trim_data = $this->_trim_data;
 		$x->_input_encoding = $this->_input_encoding;
 		$x->_output_encoding = $this->_output_encoding;
