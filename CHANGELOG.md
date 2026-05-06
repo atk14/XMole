@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+[1.0.3] - 2026-05-06
+--------------------
+
+* Source code cleaned and refactored
+
 [1.0.2] - 2026-05-05
 --------------------
 
