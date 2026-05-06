@@ -1,7 +1,7 @@
 {
         "name": "atk14/xmole",
         "type": "library",
-        "description": "XML parser",
+        "description": "Simple XML parser with path-based access to elements, attributes and subtrees",
         "keywords": ["xml","parser","atk14"],
         "homepage": "https://github.com/atk14/XMole",
         "license": ["MIT"],
