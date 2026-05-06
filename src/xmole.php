@@ -50,7 +50,7 @@ if(!defined("XMOLE_AUTO_TRIM_ALL_DATA")){
  *	$username_tree = $XMole->get_first_matching_branch("Login/Username");
  *	$user_data = $XMole->get_data("Login/Username");
  *	$attribute_value = $XMole->get_attribute("Login/Username","case_sensitive");
- *	$branches = $XMole->get_all_matching_branches("kniha/nazev");
+ *	$branches = $XMole->get_all_matching_branches("book/title");
  * ```
  *
  * @package Atk14\XMole
