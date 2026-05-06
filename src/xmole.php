@@ -464,11 +464,7 @@ class XMole{
 			return null;
 		}
 		$xmole = $this->_new_instance();
-
-		if(!$xmole->parse($element_data["xml_source"])){
-			return null;
-		}
-
+		$xmole->inherit($element_data);
 		return $xmole;
 	}
 
